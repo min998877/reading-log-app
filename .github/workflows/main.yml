@@ -1,0 +1,20 @@
+name: Keep App Alive
+
+on:
+  schedule:
+    - cron: '0 */8 * * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Keep alive
+      run: |
+        git config user.email "action@github.com"
+        git config user.name "Keep Alive Bot"
+        git commit --allow-empty -m "Keep alive - $(date)"
+    - uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
